@@ -75,35 +75,23 @@ console.log('leftMap, rightMap:', leftMap, rightMap)
     .map(r => r.split(','))
     .reduce((acc, cur, index) => {
       let res = check(cur)
-      console.log(`${index}:`, res, cur)
-
       if (!res[2]) {
         return acc
       }
 
       do {
         let [n1, n2, direction] = res;
-        console.log('n1, n2, direction:', n1, n2, direction)
-        console.log('cur:', cur)
-
         if (direction === -1) {
           const replaced = cur[n2]
-          console.log('replaced:', replaced)
           cur = cur.toSpliced(n2, 1)
-          console.log('after remove:', cur)
           cur = cur.toSpliced(n1, 0, replaced)
-          console.log('after insert:', cur)
         } else if (direction === 1) {
           const replaced = cur[n1]
-          console.log('[2] replaced:', replaced)
           cur = cur.toSpliced(n1, 1)
-          console.log('[2] after remove:', cur)
           cur = cur.toSpliced(n2, 0, replaced)
-          console.log('[2] after insert:', cur)
         }
 
         res = check(cur)
-        console.log('res:', res)
       } while (res.length > 0)
 
       return acc + +cur[(cur.length - 1) / 2]
