@@ -53,7 +53,7 @@ console.log('leftMap, rightMap:', leftMap, rightMap)
         for (let k = j + 1; k < elemArr.length - 1; k++) {
           const rightElem = elemArr[k]
           if ((leftMap[rightElem] || []).includes(e)) {
-            return [j, k, -1]
+            return [k, j]
           }
         }
       }
@@ -62,7 +62,7 @@ console.log('leftMap, rightMap:', leftMap, rightMap)
         for (let l = j - 1; l > 0; l--) {
           const leftElem = elemArr[l]
           if ((rightMap[leftElem] || []).includes(e)) {
-            return [j, l, 1]
+            return [j, l]
           }
         }
       }
@@ -75,22 +75,15 @@ console.log('leftMap, rightMap:', leftMap, rightMap)
     .map(r => r.split(','))
     .reduce((acc, cur, index) => {
       let res = check(cur)
-      if (!res[2]) {
+      if (res.length === 0) {
         return acc
       }
 
       do {
-        let [n1, n2, direction] = res;
-        if (direction === -1) {
-          const replaced = cur[n2]
-          cur = cur.toSpliced(n2, 1)
-          cur = cur.toSpliced(n1, 0, replaced)
-        } else if (direction === 1) {
-          const replaced = cur[n1]
-          cur = cur.toSpliced(n1, 1)
-          cur = cur.toSpliced(n2, 0, replaced)
-        }
-
+        let [n1, n2] = res;
+        const replaced = cur[n1]
+        cur = cur.toSpliced(n1, 1)
+        cur = cur.toSpliced(n2, 0, replaced)
         res = check(cur)
       } while (res.length > 0)
 
