@@ -43,9 +43,10 @@ const rows = (await Deno.readTextFile('input.txt'))
     }
 
     // This will never be valid if the first number is bigger than test value.
-    // if (!nums.includes(0) && nums[0] > testValue) {
-    //   return false
-    // }
+    if (!nums.includes(0) && nums[0] > testValue) {
+      return false
+    }
+
     if (nums.length > 1) {
       const [first, second, ...rest] = nums
       return ['+', '*', '||'].some(operator => isValid(testValue, [op(operator, first, second), ...rest]))
