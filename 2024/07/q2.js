@@ -28,7 +28,7 @@ const rows = (await Deno.readTextFile('input.txt'))
     if (operator === '*') {
       return first * second
     }
-    if (operator === '|') {
+    if (operator === '||') {
       return +`${first}${second}`
     }
 
@@ -46,9 +46,13 @@ const rows = (await Deno.readTextFile('input.txt'))
     // if (!nums.includes(0) && nums[0] > testValue) {
     //   return false
     // }
+    if (nums.length > 1) {
+      const [first, second, ...rest] = nums
+      return ['+', '*', '||'].some(operator => isValid(testValue, [op(operator, first, second), ...rest]))
+    }
 
-    const [first, second, ...rest] = nums
-    return isValid(testValue, [op('+', first, second), ...rest]) || isValid(testValue, [op('*', first, second), ...rest]) || isValid(testValue, [op('|', first, second), ...rest])
+    // Should not reach here
+    return false;
   }
 
   console.time('q2')

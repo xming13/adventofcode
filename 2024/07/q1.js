@@ -21,12 +21,12 @@ const rows = (await Deno.readTextFile('input.txt'))
 
 // Q1
 {
-  const op = (nums, operator) => {
+  const op = (operator, a, b) => {
     if (operator === '+') {
-      return nums.reduce((acc, cur) => acc + cur, 0)
+      return a + b
     }
     if (operator === '*') {
-      return nums.reduce((acc, cur) => acc * cur, 1)
+      return a * b
     }
 
     throw new Error(`Invalid operator ${operator}`)
@@ -35,13 +35,17 @@ const rows = (await Deno.readTextFile('input.txt'))
   // Returns true if operators can be combined to produce testValue.
   const isValid = (testValue, nums) => {
     if (nums.length === 1) {
-      console.log('testValue:', testValue, 'nums:', nums)
+      // console.log('testValue:', testValue, 'nums:', nums)
       return nums[0] === testValue
     }
 
-    const [first, second, ...rest] = nums
-    return isValid(testValue, [op([first, second], '+'), ...rest])
-      || isValid(testValue, [op([first, second], '*'), ...rest])
+    if (nums.length > 1) {
+      const [first, second, ...rest] = nums
+      return  ['+', '*'].some(operator => isValid(testValue, [op(operator, first, second), ...rest]))
+    }
+
+    // Should not reach here
+    return false;
   }
 
   const result1 = rows.reduce((acc, [testValue, numbers]) => {
