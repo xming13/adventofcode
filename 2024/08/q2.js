@@ -11,8 +11,13 @@ const maxY = aoa.length - 1
 /**
  * Expected structure
  * key: frequency
- * value: array of coordinates where i, j where 0,0 is top left,
- * x is increasing from left to right, y is increasing from top to bottom
+ * value: array of coordinates, where 0, 0 is top left
+ * `i` is increasing from left to right, `j` is increasing from top to bottom
+ *
+ * {
+ *   "0": [ [ 1, 8 ], [ 2, 5 ], [ 3, 7 ], [ 4, 4 ] ],
+ *   A: [ [ 5, 6 ], [ 8, 8 ], [ 9, 9 ] ]
+ * }
  */
 const parseAoa = (aoa) => {
   const cache = {}
@@ -40,13 +45,10 @@ console.log('data:', data)
 const computeAntiNodes = () => {
   let antiNodes = new Set()
 
-  Object.entries(data).forEach(([key, coordinates]) => {
-    console.log('key, coordinates:', key, coordinates)
+  Object.values(data).forEach(coordinates => {
     for (let i = 0; i <= coordinates.length - 2; i++) {
       for (let j = i + 1; j <= coordinates.length - 1; j++) {
-        console.log(`Compare ${coordinates[i]}, ${coordinates[j]}`)
         const newSet = getAntiNodes(coordinates[i], coordinates[j])
-        console.log('newSet:', newSet)
         antiNodes = antiNodes.union(newSet)
       }
     }
@@ -69,9 +71,6 @@ const getAntiNodes = ([i1, j1], [i2, j2]) => {
     const n1 = [i1 + di * isLeft * k, j1 + dj * isTop * k]
     const n2 = [i2 + di * -isLeft * k, j2 + dj * -isTop * k]
 
-    console.log('n1:', n1)
-    console.log('n2:', n2)
-
     const inMap1 = isInMap(n1);
     const inMap2 = isInMap(n2);
 
@@ -85,7 +84,6 @@ const getAntiNodes = ([i1, j1], [i2, j2]) => {
     if (inMap2) {
       set.add(`${n2[0]},${n2[1]}`)
     }
-    console.log('set:', set)
   }
 
   return set
@@ -95,7 +93,7 @@ const isInMap = ([x, y]) => x >= 0 && x <= maxX && y >= 0 && y <= maxY
 
 console.time('res2')
 const antiNodes = computeAntiNodes()
-console.log('antiNodes:', antiNodes)
+// console.log('antiNodes:', antiNodes)
 console.log('res2:', antiNodes.size)
 console.timeEnd('res2')
 
