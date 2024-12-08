@@ -58,18 +58,14 @@ const computeAntiNodes = () => {
 }
 
 const getAntiNodes = ([i1, j1], [i2, j2]) => {
-  const di = Math.abs(i2 - i1)
-  const dj = Math.abs(j2 - j1)
+  const diffI = i2 - i1;
+  const diffJ = j2 - j1;
 
-  const isLeft = i1 < i2 ? -1 : 1
-  const isTop = j1 < j2 ? -1 : 1
   const set = new Set()
-  set.add(`${i1},${j1}`)
-  set.add(`${i2},${j2}`)
 
-  for (let k = 1; k < maxX; k++) {
-    const n1 = [i1 + di * isLeft * k, j1 + dj * isTop * k]
-    const n2 = [i2 + di * -isLeft * k, j2 + dj * -isTop * k]
+  for (let k = 0; k < maxX; k++) {
+    const n1 = [i1 - diffI * k, j1 - diffJ * k]
+    const n2 = [i2 + diffI * k, j2 + diffJ * k]
 
     const inMap1 = isInMap(n1);
     const inMap2 = isInMap(n2);

@@ -56,14 +56,11 @@ const computeAntiNodes = () => {
 }
 
 const getAntiNodes = ([i1, j1], [i2, j2]) => {
-  const di = Math.abs(i2 - i1);
-  const dj = Math.abs(j2 - j1);
+  const diffI = i2 - i1;
+  const diffJ = j2 - j1;
 
-  const isLeft = i1 < i2 ? -1 : 1;
-  const isTop = j1 < j2 ? -1 : 1;
-
-  const n1 = [i1 + di * isLeft, j1 + dj * isTop]
-  const n2 = [i2 + di * -isLeft, j2 + dj * -isTop]
+  const n1 = [i1 - diffI, j1 - diffJ]
+  const n2 = [i2 + diffI, j2 + diffJ]
 
   const set = new Set()
 

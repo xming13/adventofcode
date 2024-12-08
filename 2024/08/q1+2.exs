@@ -30,24 +30,17 @@ defmodule Solution do
   end
 
   defp get_anti_nodes([i1, j1], [i2, j2], size, multiple) do
-    di = abs(i2 - i1)
-    dj = abs(j2 - j1)
+    diffI = i2 - i1
+    diffJ = j2 - j1
 
-    isLeft = if i1 < i2, do: -1, else: 1
-    isTop = if j1 < j2, do: -1, else: 1
-
-    min = if multiple, do: 0, else: 1
-    max = if multiple, do: size - 1, else: 1
-    Enum.reduce(min..max, MapSet.new(), fn s, acc ->
-      n1 = [i1 + di * isLeft * s, j1 + dj * isTop * s]
-      n2 = [i2 + di * -isLeft * s, j2 + dj * -isTop * s]
-
-      n1_in_map = is_in_map(n1, size)
-      n2_in_map = is_in_map(n2, size)
+    range = if multiple, do: 0..size - 1, else: 1..1
+    Enum.reduce(range, MapSet.new(), fn s, acc ->
+      n1 = [i1 - diffI * s, j1 - diffJ * s]
+      n2 = [i2 + diffI * s, j2 + diffJ * s]
 
       acc
-      |> (fn set -> if n1_in_map, do: MapSet.put(set, n1), else: set end).()
-      |> (fn set -> if n2_in_map, do: MapSet.put(set, n2), else: set end).()
+      |> (fn set -> if is_in_map(n1, size), do: MapSet.put(set, n1), else: set end).()
+      |> (fn set -> if is_in_map(n2, size), do: MapSet.put(set, n2), else: set end).()
     end)
   end
 

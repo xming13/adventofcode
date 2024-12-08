@@ -30,14 +30,11 @@ defmodule Solution do
   end
 
   defp get_anti_nodes([i1, j1], [i2, j2], size) do
-    di = abs(i2 - i1)
-    dj = abs(j2 - j1)
+    diffI = i2 - i1
+    diffJ = j2 - j1
 
-    isLeft = if i1 < i2, do: -1, else: 1;
-    isTop = if j1 < j2, do: -1, else: 1
-
-    n1 = [i1 + di * isLeft, j1 + dj * isTop]
-    n2 = [i2 + di * -isLeft, j2 + dj * -isTop]
+    n1 = [i1 - diffI, j1 - diffJ]
+    n2 = [i2 + diffI, j2 + diffJ]
 
     n1_in_map = is_in_map(n1, size)
     n2_in_map = is_in_map(n2, size)
