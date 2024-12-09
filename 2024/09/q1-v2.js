@@ -1,3 +1,6 @@
+// I was trying a different approach but realised I misunderstood the question.
+// Keeping it for now.
+
 // const input = (await Deno.readTextFile('input.txt'))
 //   .split('\n')
 //   .filter(a => a)[0].trimEnd()
